@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:gallary_app/controller/helper/api_helper.dart';
+import 'package:gallary_app/views/screens/image_page.dart';
+
+import '../../modal/global_color.dart';
 
 class Category_name_page extends StatefulWidget {
   String name;
@@ -17,7 +20,7 @@ class _Category_name_pageState extends State<Category_name_page> {
   void initState() {
     super.initState();
 
-    dataval = Api_Helper.api_helper.getImage(category: widget.api);
+    dataval = Api_Helper.api_helper.apiImage(category: widget.api);
   }
 
   @override
@@ -33,13 +36,19 @@ class _Category_name_pageState extends State<Category_name_page> {
                 child: TextField(
                   onChanged: (val) async {
                     setState(() {
-                      dataval = Api_Helper.api_helper.getImage(category: val);
+                      dataval = Api_Helper.api_helper.apiImage(category: val);
                     });
                   },
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Search",
-                      prefixIcon: Icon(Icons.search)),
+                      hintStyle: TextStyle(
+                        color: Global.textcolor,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Global.textcolor,
+                      )),
                 ),
               ),
               Expanded(
@@ -52,27 +61,26 @@ class _Category_name_pageState extends State<Category_name_page> {
                         child: Text('Error :${snapshot.error}'),
                       );
                     } else if (snapshot.hasData) {
-                      List allData = snapshot.data as List;
+                      List Data = snapshot.data as List;
                       return MasonryGridView.count(
                         scrollDirection: Axis.vertical,
                         padding: const EdgeInsets.all(8),
                         crossAxisCount: 2,
                         mainAxisSpacing: 8,
                         crossAxisSpacing: 8,
-                        itemCount: allData.length,
+                        itemCount: Data.length,
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                'View_Screen',
-                                arguments: allData[index].image,
-                              );
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    Image_Page(image: Data[index].image),
+                              ));
                             },
                             child: Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                  image: NetworkImage(allData[index].image),
+                                  image: NetworkImage(Data[index].image),
                                   opacity: 0.9,
                                   colorFilter:
                                       const ColorFilter.srgbToLinearGamma(),
@@ -80,7 +88,7 @@ class _Category_name_pageState extends State<Category_name_page> {
                                 ),
                               ),
                               child: Image(
-                                image: NetworkImage(allData[index].image),
+                                image: NetworkImage(Data[index].image),
                                 fit: BoxFit.fitHeight,
                                 color: Colors.white.withOpacity(0.0),
                                 colorBlendMode: BlendMode.modulate,
@@ -103,6 +111,7 @@ class _Category_name_pageState extends State<Category_name_page> {
           ),
         ),
       ),
+      backgroundColor: Global.bgcolor,
     );
   }
 }

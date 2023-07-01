@@ -3,6 +3,8 @@ import 'package:gallary_app/views/screens/categories_page.dart';
 import 'package:gallary_app/views/screens/top_page.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../modal/global_color.dart';
+
 class Home_Page extends StatefulWidget {
   const Home_Page({Key? key}) : super(key: key);
 
@@ -23,8 +25,9 @@ class _Home_PageState extends State<Home_Page> {
         child: screens[currentindex],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedIconTheme: const IconThemeData(
-          color: Color(0xffE12E4B),
+        backgroundColor: Global.bottomcolor,
+        selectedIconTheme: IconThemeData(
+          color: Global.textcolor,
         ),
         currentIndex: currentindex,
         elevation: 20,
@@ -32,15 +35,17 @@ class _Home_PageState extends State<Home_Page> {
         selectedFontSize: 12,
         selectedLabelStyle:
             GoogleFonts.alegreya(fontSize: 14, fontWeight: FontWeight.bold),
-        showUnselectedLabels: false,
+        showUnselectedLabels: true,
         showSelectedLabels: true,
-        selectedItemColor: const Color(0xffE12E4B),
-        items: const [
+        selectedItemColor: Global.textcolor,
+        unselectedItemColor: Colors.grey,
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.vertical_align_top_outlined),
-              label: "Top",
-              activeIcon: Icon(Icons.vertical_align_top_outlined),
-              backgroundColor: Colors.white),
+            icon: Icon(Icons.vertical_align_top_outlined),
+            label: "Top",
+            activeIcon: Icon(Icons.vertical_align_top_outlined),
+            backgroundColor: Global.textcolor,
+          ),
           BottomNavigationBarItem(
               icon: Icon(Icons.category),
               label: "Categories",

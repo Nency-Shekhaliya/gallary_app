@@ -9,7 +9,7 @@ class Api_Helper {
 
   static final Api_Helper api_helper = Api_Helper._();
 
-  getImage({required String category}) async {
+  apiImage({required String category}) async {
     http.Response response = await http.get(
       Uri.parse(
         "https://pixabay.com/api/?key=35722369-0ff268194d7105d16de321576&q=$category&image_type=photo&pretty=true",
